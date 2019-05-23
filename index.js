@@ -45,37 +45,24 @@ const pushOfflineServicesInServices = services => {
 const { dialogflow, SimpleResponse, Table } = require("actions-on-google");
 const app = dialogflow({ debug: true });
 
-app.intent("Get the service status", conv => {
-  getServers()
-    .then(applications => {
-      const services = [];
-      pushInstancesInServices(applications, services);
-      pushOfflineServicesInServices(applications, services);
-      const tableContent = [];
+app.intent("Get the service status", async conv => {
+  const applications = await getServers();
+  const services = [];
+  pushInstancesInServices(applications, services);
+  pushOfflineServicesInServices(applications, services);
+  const tableContent = [];
 
-      services.forEach(service => {
-        tableContent.push([
-          service.title,
-          service.online ? "Online" : "Offline"
-        ]);
-      });
+  services.forEach(service => {
+    tableContent.push([service.title, service.online ? "Online" : "Offline"]);
+  });
 
-      conv.ask(
-        new Table({
-          title: "All servers",
-          columns: ["Service", "status"],
-          rows: tableContent
-        })
-      );
+  conv.ask(
+    new Table({
+      title: "All servers",
+      columns: ["Service", "status"],
+      rows: tableContent
     })
-    .catch(e => {
-      conv.close(
-        new SimpleResponse({
-          text: "Oops",
-          speech: "Oops we fucked up"
-        })
-      );
-    });
+  );
 });
 
 const expressApp = express().use(bodyParser.json());
