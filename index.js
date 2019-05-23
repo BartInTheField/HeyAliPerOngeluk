@@ -9,7 +9,22 @@ const getServers = async () => {
       headers: { Accept: "application/json" }
     })
       .then(res => res.json())
-      .then(body => resolve(body.applications.application))
+      .then(body => {
+        const applications = body.applications.application;
+        const services = [];
+        pushInstancesInServices(applications, services);
+        pushOfflineServicesInServices(applications, services);
+        const tableContent = [];
+
+        services.forEach(service => {
+          tableContent.push([
+            service.title,
+            service.online ? "Online" : "Offline"
+          ]);
+        });
+
+        resolve(tableContent);
+      })
       .catch(e => reject(e));
   });
 };
@@ -46,16 +61,9 @@ const { dialogflow, SimpleResponse, Table } = require("actions-on-google");
 const app = dialogflow({ debug: true });
 
 app.intent("Get the service status", async conv => {
-  const applications = await getServers();
-  const services = [];
-  pushInstancesInServices(applications, services);
-  pushOfflineServicesInServices(applications, services);
-  const tableContent = [];
+  const tableContent = await getServers();
 
-  services.forEach(service => {
-    tableContent.push([service.title, service.online ? "Online" : "Offline"]);
-  });
-
+  conv.ask("Here are tje services:");
   conv.ask(
     new Table({
       title: "All servers",
