@@ -23,6 +23,6 @@ app.intent("Get the service status", async conv => {
 
 const expressApp = express().use(bodyParser.json());
 
-expressApp.post("/fulfillment", app);
+expressApp.post("*", app);
 
 module.exports = expressApp;
