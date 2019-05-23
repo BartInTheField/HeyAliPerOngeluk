@@ -63,7 +63,7 @@ const app = dialogflow({ debug: true });
 app.intent("Get the service status", async conv => {
   const tableContent = await getServers();
 
-  conv.ask("Here are tje services:");
+  conv.ask("Here are the services:");
   conv.ask(
     new Table({
       title: "All servers",
