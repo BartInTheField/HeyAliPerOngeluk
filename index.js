@@ -11,9 +11,7 @@ const { dialogflow, SimpleResponse } = require("actions-on-google");
 const app = dialogflow({ debug: true });
 
 app.intent("Get the service status", async conv => {
-  const servers = await getServers();
-  conv.json(servers);
-  conv.add(
+  conv.close(
     new SimpleResponse({
       text: "All servers are up!",
       speech: "All servers seem to be up"
