@@ -45,7 +45,7 @@ const pushOfflineServicesInServices = services => {
 const { dialogflow, SimpleResponse, Table } = require("actions-on-google");
 const app = dialogflow({ debug: true });
 
-app.intent("Get the service status", async conv => {
+app.intent("Get the service status", conv => {
   getServers()
     .then(applications => {
       const services = [];
