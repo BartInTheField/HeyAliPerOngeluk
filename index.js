@@ -57,14 +57,14 @@ const pushOfflineServicesInServices = services => {
 };
 
 // Google Assistant deps
-const { dialogflow, SimpleResponse, Table } = require("actions-on-google");
+const { dialogflow, Table } = require("actions-on-google");
 const app = dialogflow({ debug: true });
 
 app.intent("Get the service status", async conv => {
   const tableContent = await getServers();
 
   conv.ask("Here are the services:");
-  conv.ask(
+  conv.add(
     new Table({
       title: "All servers",
       columns: ["Service", "status"],
