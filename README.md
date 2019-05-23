@@ -1,2 +1,0 @@
-# HeyAliPerOngeluk
-Created with CodeSandbox
