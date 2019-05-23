@@ -11,12 +11,24 @@ const { dialogflow, SimpleResponse } = require("actions-on-google");
 const app = dialogflow({ debug: true });
 
 app.intent("Get the service status", async conv => {
-  conv.close(
-    new SimpleResponse({
-      text: "All servers are up!",
-      speech: "All servers seem to be up"
+  getServers()
+    .then(res => {
+      conv.json(res);
+      conv.close(
+        new SimpleResponse({
+          text: "All servers are up!",
+          speech: "All servers seem to be up"
+        })
+      );
     })
-  );
+    .catch(e => {
+      conv.close(
+        new SimpleResponse({
+          text: "Oops",
+          speech: "Oops we fucked up"
+        })
+      );
+    });
 });
 
 const expressApp = express().use(bodyParser.json());
