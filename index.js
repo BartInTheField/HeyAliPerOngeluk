@@ -23,6 +23,10 @@ app.intent("Get the service status", async conv => {
 
 const expressApp = express().use(bodyParser.json());
 
+expressApp.get("*", (req, res) => {
+  res.send("This is a Google Assistant app!");
+});
+
 expressApp.post("*", app);
 
 module.exports = expressApp;
