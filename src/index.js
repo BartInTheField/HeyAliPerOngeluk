@@ -25,4 +25,4 @@ const expressApp = express().use(bodyParser.json());
 
 expressApp.post("/fulfillment", app);
 
-expressApp.listen(3000);
+module.exports = expressApp;
