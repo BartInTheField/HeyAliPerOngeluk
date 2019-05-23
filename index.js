@@ -64,7 +64,7 @@ app.intent("Get the service status", async conv => {
   const tableContent = await getServers();
 
   conv.ask("Here are the services:");
-  conv.add(
+  conv.close(
     new Table({
       title: "All servers",
       columns: ["Service", "status"],
